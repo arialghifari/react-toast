@@ -18,6 +18,16 @@ function ToastProvider({ children }) {
     setToastList(toastList.filter((toast) => toast.id !== id))
   }
 
+  React.useEffect(() => {
+    const handleClose = window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        setToastList([])
+      }
+    })
+
+    return () => window.removeEventListener('keydown', handleClose)
+  }, [])
+
   const value = {
     toastList,
     setToastList,
