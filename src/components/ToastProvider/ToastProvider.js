@@ -1,5 +1,5 @@
 import React from 'react'
-import useEscapeKey from '../../hooks/useEscapeKey'
+import useKeydown from '../../hooks/useKeydown'
 
 export const ToastContext = React.createContext()
 
@@ -19,9 +19,11 @@ function ToastProvider({ children }) {
     setToastList(toastList.filter((toast) => toast.id !== id))
   }
 
-  useEscapeKey(() => {
+  const handleaCloseAll = React.useCallback(() => {
     setToastList([])
-  })
+  }, [])
+
+  useKeydown('Escape', handleaCloseAll)
 
   const value = {
     toastList,
