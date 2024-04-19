@@ -3,14 +3,14 @@ import React from 'react'
 import Button from '../Button'
 
 import styles from './ToastPlayground.module.css'
+import Toast from '../Toast/Toast'
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error']
 
 function ToastPlayground() {
+  const [isOpen, setIsOpen] = React.useState(false)
   const [message, setMessage] = React.useState('')
-  const [selectedVariant, setSelectedVariant] = React.useState(
-    VARIANT_OPTIONS[0]
-  )
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0])
 
   return (
     <div className={styles.wrapper}>
@@ -18,6 +18,10 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {isOpen && (
+        <Toast message={message} variant={variant} setIsOpen={setIsOpen} />
+      )}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -41,17 +45,17 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label}>Variant</div>
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            {VARIANT_OPTIONS.map((variant) => (
-              <label key={variant} htmlFor={variant}>
+            {VARIANT_OPTIONS.map((item) => (
+              <label key={item} htmlFor={item}>
                 <input
-                  id={variant}
+                  id={item}
                   type="radio"
                   name="variant"
-                  value={variant}
-                  defaultChecked={variant === selectedVariant}
-                  onChange={() => setSelectedVariant(variant)}
+                  value={item}
+                  defaultChecked={item === variant}
+                  onChange={() => setVariant(item)}
                 />
-                {variant}
+                {item}
               </label>
             ))}
           </div>
@@ -60,7 +64,7 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button>Pop Toast!</Button>
+            <Button onClick={() => setIsOpen(true)}>Pop Toast!</Button>
           </div>
         </div>
       </div>
